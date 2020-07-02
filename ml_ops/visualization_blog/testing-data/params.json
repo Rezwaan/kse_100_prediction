@@ -1,48 +1,105 @@
 {
   "DatasetGroup": {
-    "DatasetGroupName":"GithubExample",
+    "DatasetGroupName":"kse_100_dataset",
     "Domain": "CUSTOM"
   },
   "Predictor": {
-    "PredictorName": "GithubExamplePredictor",
+    "PredictorName": "kse_100_predictor",
+    "AlgorithmArn": "arn:aws:forecast:::algorithm/Deep_AR_Plus",
     "ForecastHorizon": 72,
     "FeaturizationConfig":{
-      "ForecastFrequency":"H"
+      "ForecastFrequency":"D",
+      "Featurizations": [
+            {
+              "AttributeName": "target_value",
+              "FeaturizationPipeline": [
+                {
+                  "FeaturizationMethodName": "filling",
+                  "FeaturizationMethodParameters": {
+                    "aggregation": "sum",
+                    "backfill": "mean",
+                    "frontfill": "none",
+                    "middlefill": "mean"
+                  }
+                }
+              ]
+            },
+            {
+              "AttributeName": "oil_price",
+              "FeaturizationPipeline": [
+                {
+                  "FeaturizationMethodName": "filling",
+                  "FeaturizationMethodParameters": {
+                    "backfill": "mean",
+                    "futurefill": "min",
+                    "middlefill": "mean"
+                  }
+                }
+              ]
+            },
+            {
+              "AttributeName": "kse_price",
+              "FeaturizationPipeline": [
+                {
+                  "FeaturizationMethodName": "filling",
+                  "FeaturizationMethodParameters": {
+                    "backfill": "mean",
+                    "futurefill": "min",
+                    "middlefill": "mean"
+                  }
+                }
+              ]
+            },
+            {
+              "AttributeName": "dollar_price",
+              "FeaturizationPipeline": [
+                {
+                  "FeaturizationMethodName": "filling",
+                  "FeaturizationMethodParameters": {
+                    "backfill": "mean",
+                    "futurefill": "min",
+                    "middlefill": "mean"
+                  }
+                }
+              ]
+            }
+          ]
     },
-    "PerformAutoML": true
+    "PerformAutoML": false
   },
   "Forecast": {
-    "ForecastName": "GithubForecastExample",
+    "ForecastName": "kse_100_forecast",
     "ForecastTypes":[
       "0.10",
-      "0.50",
-      "0.90"
+      "0.90",
+      "0.50"
     ]
   },
-  "TimestampFormat": "yyyy-MM-dd hh:mm:ss",
+  "TimestampFormat": "yyyy-MM-dd",
   "Datasets": [
     {
-      "DatasetName": "GithubTargetTimeSeries",
+      "DatasetName": "kse_100_TimeSeries_dataset",
       "Domain": "CUSTOM",
       "DatasetType": "TARGET_TIME_SERIES",
-      "DataFrequency": "H",
+      "DataFrequency": "D",
       "Schema": {
         "Attributes": [
           {
             "AttributeName": "timestamp",
             "AttributeType": "timestamp"
-          }, {
-              "AttributeName": "target_value",
-              "AttributeType": "float"
-          }, {
+          },
+          {
             "AttributeName": "item_id",
             "AttributeType": "string"
-          }
+          }, {
+            "AttributeName": "target_value",
+            "AttributeType": "float"
+         }
         ]
       }
     },
     {
-      "DatasetName": "kse_100_RelatedTimeSeries",
+      "DatasetName": "kse_100_RelatedTimeSeries_dataset",
       "Domain": "CUSTOM",
       "DatasetType": "RELATED_TIME_SERIES",
       "DataFrequency": "D",
