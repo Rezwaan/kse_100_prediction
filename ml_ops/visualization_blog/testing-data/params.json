@@ -1,0 +1,76 @@
+{
+  "DatasetGroup": {
+    "DatasetGroupName":"GithubExample",
+    "Domain": "CUSTOM"
+  },
+  "Predictor": {
+    "PredictorName": "GithubExamplePredictor",
+    "ForecastHorizon": 72,
+    "FeaturizationConfig":{
+      "ForecastFrequency":"H"
+    },
+    "PerformAutoML": true
+  },
+  "Forecast": {
+    "ForecastName": "GithubForecastExample",
+    "ForecastTypes":[
+      "0.10",
+      "0.50",
+      "0.90"
+    ]
+  },
+  "TimestampFormat": "yyyy-MM-dd hh:mm:ss",
+  "Datasets": [
+    {
+      "DatasetName": "GithubTargetTimeSeries",
+      "Domain": "CUSTOM",
+      "DatasetType": "TARGET_TIME_SERIES",
+      "DataFrequency": "H",
+      "Schema": {
+        "Attributes": [
+          {
+            "AttributeName": "timestamp",
+            "AttributeType": "timestamp"
+          }, {
+              "AttributeName": "target_value",
+              "AttributeType": "float"
+          }, {
+            "AttributeName": "item_id",
+            "AttributeType": "string"
+          }
+        ]
+      }
+    },
+    {
+      "DatasetName": "kse_100_RelatedTimeSeries",
+      "Domain": "CUSTOM",
+      "DatasetType": "RELATED_TIME_SERIES",
+      "DataFrequency": "D",
+      "Schema": {
+        "Attributes": [
+          {
+            "AttributeName": "timestamp",
+            "AttributeType": "timestamp"
+          },
+          {
+            "AttributeName": "item_id",
+            "AttributeType": "string"
+          },
+          {
+            "AttributeName": "oil_price",
+            "AttributeType": "float"
+          },
+          {
+            "AttributeName": "kse_price",
+            "AttributeType": "float"
+          },
+          {
+            "AttributeName": "dollar_price",
+            "AttributeType": "float"
+          }
+        ]
+      }
+    }
+  ],
+  "PerformDelete": false
+}
